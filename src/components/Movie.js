@@ -1,38 +1,57 @@
 import { Link } from "react-router-dom";
-import styled from 'styled-components'
-import { MY_API_KEY } from "../global";
+import styled from 'styled-components';
 
 
 
-const TRENDING_MOVIES_API = `https://api.themoviedb.org/3/trending/all/day?api_key=${MY_API_KEY}`;
-const POPULAR_MOVIES_API = `https://api.themoviedb.org/3/movie/popular?api_key=${MY_API_KEY}`;
-const UPCOMING_MOVIES_API = `https://api.themoviedb.org/3/movie/upcoming?api_key=${MY_API_KEY}`;
-const TOP_MOVIES_API = `https://api.themoviedb.org/3/movie/top_rated?api_key=${MY_API_KEY}`;
-const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=${MY_API_KEY}&language=en-US&include_adult=false`;
+const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-const IMAGE_URL ='https://image.tmdb.org/t/p/w500';
-
-
-const MoviePoster = styled.img`
-border-radius: 15px;
-width: 100%;
+const MoviesCard = styled.div`
+  // min-width:160px;
+  padding-top: 40px;
+  margin-bottom: 10px;
+  margin-right:10px;
+  flex-wrap: wrap;
+`;
+const MoviesImg = styled.img`
+  display:block;
+  // width: 180px;
+  // height: 225px;
+  border-radius: 10px;
+  display: inline-block;
+  width: 100%;
+  height: 60%;
+`;
+const MovieTitle = styled.h2`
+    color: #000;
+    font-weight: 600;
+    font-size: 1em;
+    margin: 0;
+    // width: 100%;
+    // overflow-wrap: break-word;
+`;
+const ReleaseDate = styled.p`
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    color: rgba(0,0,0,0.6);
 `;
 
-const MovieCard = styled.div`
-background-color: black;
-`
-
-
-const Movie = ({moviesList}) =>{
-    const url = `/movie/${moviesList.id}`;
-    return (
-        <MovieCard>
-        <MoviePoster src={IMAGE_URL + moviesList.poster_path} alt={moviesList.title}/>
-        {/* <img className="movie__img" src={IMAGE_URL + movieObj.poster_path} alt={movieObj.title}/> */}
-        {moviesList.title ? moviesList.title  : moviesList.name}
-        <Link to={url}>View this movie</Link>
-        </MovieCard>
-
-    );
-}
+const Movie = ({ movieobj }) => {
+  return (
+    <Link to={`/movie/${movieobj.id}`} style={{textDecoration:'none'}}>
+      <MoviesCard className="movie">
+          {/* <div className='moviesCardImgWrapper125'>
+            
+  
+          </div> */}
+          <MoviesImg src={IMAGE_URL + movieobj.poster_path} alt={movieobj.title}/>
+          <div className="movie_details">
+          <MovieTitle > {movieobj.title ? movieobj.title : movieobj.name} </MovieTitle>
+          <ReleaseDate className="release-date">{movieobj.release_date}</ReleaseDate>
+      </div>
+      </MoviesCard>
+     
+     </Link>
+  );
+};
 export default Movie;
